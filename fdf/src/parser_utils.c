@@ -6,11 +6,11 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:44:20 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 11:52:17 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 14:34:01 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 void	free_split_safe(char **split)
 {

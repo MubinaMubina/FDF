@@ -6,12 +6,12 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:45:05 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 11:16:00 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 14:34:07 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 int	count_width(char *line)
 {

@@ -6,13 +6,13 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 10:32:01 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 11:08:33 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 14:33:43 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 char	*ft_strchr(const char *s, int c)
 {

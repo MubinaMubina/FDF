@@ -6,11 +6,11 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:42:07 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 13:58:51 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 16:53:37 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 static void	init_camera(t_cam *cam)
 {
@@ -45,10 +45,7 @@ static int	setup_fdf(t_fdf *fdf, const char *filename)
 	init_z_minmax(&fdf->map);
 	init_camera(&fdf->cam);
 	if (!setup_mlx(fdf))
-	{
-		write(2, "Error: Failed to setup MLX\n", 27);
 		return (0);
-	}
 	return (1);
 }
 
@@ -58,16 +55,20 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl_fd("Usage: ./fdf <map.fdf>", 2);
+		write(2, "Usage: ./fdf <map_file>\n", 24);
 		return (1);
 	}
 	if (!setup_fdf(&fdf, argv[1]))
 		return (1);
+	printf("Map parsed: %d x %d\n", fdf.map.width, fdf.map.height);
+	// Debug line
+	draw_map(&fdf);
+	draw_map(&fdf);
 	mlx_image_to_window(fdf.mlx, fdf.img, 0, 0);
-	mlx_key_hook(fdf.mlx, key_hook, &fdf);
-	mlx_scroll_hook(fdf.mlx, scroll_hook, &fdf);
-	mlx_close_hook(fdf.mlx, close_hook, &fdf);
-	mlx_loop_hook(fdf.mlx, (void (*)(void *))draw_map, &fdf);
+	mlx_key_hook(fdf.mlx, &key_hook, &fdf);
+	mlx_scroll_hook(fdf.mlx, &scroll_hook, &fdf);
 	mlx_loop(fdf.mlx);
+	mlx_terminate(fdf.mlx);
+	free_map(&fdf.map);
 	return (0);
 }

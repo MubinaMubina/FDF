@@ -6,11 +6,11 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:47:13 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 08:03:38 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 16:59:38 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 void	put_pixel(mlx_image_t *img, int x, int y, uint32_t color)
 {
@@ -36,45 +36,47 @@ uint32_t	get_height_color(float z, float z_max, float z_min)
 
 void	draw_line(t_fdf *fdf, t_point p1, t_point p2)
 {
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
+	uint32_t	color;
 
-	x0 = (int)p1.x;
-	y0 = (int)p1.y;
-	x1 = (int)p2.x;
-	y1 = (int)p2.y;
-	draw_bresenham(fdf, x0, y0, x1, y1);
+	color = get_height_color(p1.z, fdf->map.z_max, fdf->map.z_min);
+	draw_bresenham(fdf, p1, p2, color);
 }
 
-void	draw_bresenham(t_fdf *fdf, int x0, int y0, int x1, int y1)
+/* ** We use an array for variables to stay under the 5-variable Norm limit.
+** v[0] = dx, v[1] = dy, v[2] = sx, v[3] = sy, v[4] = err, v[5] = e2
+*/
+void	draw_bresenham(t_fdf *fdf, t_point p1, t_point p2, uint32_t color)
 {
-	int dx;
-	int dy;
-	int sx;
-	int sy;
-	int err;
+	int	v[6];
+	int	cur_x;
+	int	cur_y;
 
-	dx = (x1 - x0 < 0) ? -(x1 - x0) : (x1 - x0);
-	dy = (y1 - y0 < 0) ? -(y1 - y0) : (y1 - y0);
-	sx = (x0 < x1) ? 1 : -1;
-	sy = (y0 < y1) ? 1 : -1;
-	err = dx - dy;
+	cur_x = (int)p1.x;
+	cur_y = (int)p1.y;
+	v[0] = abs((int)p2.x - cur_x);
+	v[1] = -abs((int)p2.y - cur_y);
+	v[2] = -1;
+	if (cur_x < (int)p2.x)
+		v[2] = 1;
+	v[3] = -1;
+	if (cur_y < (int)p2.y)
+		v[3] = 1;
+	v[4] = v[0] + v[1];
 	while (1)
 	{
-		put_pixel(fdf->img, x0, y0, 0xFFFFFFFF);
-		if (x0 == x1 && y0 == y1)
+		put_pixel(fdf->img, cur_x, cur_y, color);
+		if (cur_x == (int)p2.x && cur_y == (int)p2.y)
 			break ;
-		if (2 * err > -dy)
+		v[5] = 2 * v[4];
+		if (v[5] >= v[1] && cur_x != (int)p2.x)
 		{
-			err -= dy;
-			x0 += sx;
+			v[4] += v[1];
+			cur_x += v[2];
 		}
-		if (2 * err < dx)
+		if (v[5] <= v[0] && cur_y != (int)p2.y)
 		{
-			err += dx;
-			y0 += sy;
+			v[4] += v[0];
+			cur_y += v[3];
 		}
 	}
 }

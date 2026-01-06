@@ -6,11 +6,11 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 10:03:18 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 11:08:39 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 14:33:54 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 static char	*read_to_buffer(int fd, char *remainder, char *buffer);
 static char	*update_remainder(char *line_buffer);

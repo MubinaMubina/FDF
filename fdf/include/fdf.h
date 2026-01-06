@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/24 18:21:13 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 11:52:58 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 14:39:05 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ t_point			*parse_line(char *line, int y, int width);
 void			free_map(t_map *map);
 void			draw_map(t_fdf *fdf);
 void			draw_line(t_fdf *fdf, t_point p1, t_point p2);
-void			draw_bresenham(t_fdf *fdf, int x0, int y0, int x1, int y1);
+void			draw_bresenham(t_fdf *fdf, t_point p1, t_point p2,
+					uint32_t color);
 void			put_pixel(mlx_image_t *img, int x, int y, uint32_t color);
 uint32_t		get_height_color(float z, float z_max, float z_min);
 t_point			isometric_projection(t_point p);

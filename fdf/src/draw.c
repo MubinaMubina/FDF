@@ -6,79 +6,58 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:47:07 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 12:13:25 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/04 16:43:46 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "fdf.h"
+#include "../include/fdf.h"
 
 static t_point	apply_transforms(t_point p, t_fdf *fdf)
 {
-	t_point	result;
+	t_point	res;
 
-	result = isometric_projection(p);
-	result = scale_point(result, fdf->cam.zoom);
-	result = translate_point(result, fdf->cam.offset_x, fdf->cam.offset_y);
-	return (result);
+	res.x = p.x * fdf->cam.zoom;
+	res.y = p.y * fdf->cam.zoom;
+	res.z = p.z * (fdf->cam.zoom / 10); // Scale Z relative to zoom
+	res = isometric_projection(res);
+	res.x += fdf->cam.offset_x;
+	res.y += fdf->cam.offset_y;
+	return (res);
 }
 
 static void	clear_image(mlx_image_t *img)
 {
-	int	i;
+	uint32_t	i;
+	uint32_t	total_pixels;
 
+	total_pixels = img->width * img->height;
 	i = 0;
-	while (i < (int)(img->width * img->height))
+	while (i < total_pixels)
 	{
-		((uint32_t *)img->pixels)[i] = 0x000000FF;
+		mlx_put_pixel(img, i % img->width, i / img->width, 0x000000FF);
 		i++;
-	}
-}
-
-static void	draw_horizontal_lines(t_fdf *fdf)
-{
-	int		x;
-	int		y;
-	t_point	p1;
-	t_point	p2;
-
-	y = 0;
-	while (y < fdf->map.height)
-	{
-		x = 0;
-		while (x < fdf->map.width - 1)
-		{
-			p1 = apply_transforms(fdf->map.points[y][x], fdf);
-			p2 = apply_transforms(fdf->map.points[y][x + 1], fdf);
-			draw_line(fdf, p1, p2);
-			x++;
-		}
-		y++;
 	}
 }
 
 void	draw_map(t_fdf *fdf)
 {
-	int		x;
-	int		y;
-	t_point	p1;
-	t_point	p2;
+	int	x;
+	int	y;
 
-	if (!fdf || !fdf->map.points || fdf->map.height <= 1)
-		return ;
 	clear_image(fdf->img);
-	draw_horizontal_lines(fdf);
-	y = 0;
-	while (y < fdf->map.height - 1)
+	y = -1;
+	while (++y < fdf->map.height)
 	{
-		x = 0;
-		while (x < fdf->map.width)
+		x = -1;
+		while (++x < fdf->map.width)
 		{
-			p1 = apply_transforms(fdf->map.points[y][x], fdf);
-			p2 = apply_transforms(fdf->map.points[y + 1][x], fdf);
-			draw_line(fdf, p1, p2);
-			x++;
+			if (x < fdf->map.width - 1)
+				draw_line(fdf, apply_transforms(fdf->map.points[y][x], fdf),
+					apply_transforms(fdf->map.points[y][x + 1], fdf));
+			if (y < fdf->map.height - 1)
+				draw_line(fdf, apply_transforms(fdf->map.points[y][x], fdf),
+					apply_transforms(fdf->map.points[y + 1][x], fdf));
 		}
-		y++;
 	}
 }
