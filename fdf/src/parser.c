@@ -6,10 +6,9 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:45:05 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 14:34:07 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/06 16:06:36 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../include/fdf.h"
 
@@ -77,10 +76,10 @@ t_point	*parse_line(char *line, int y, int width)
 
 t_map	parse_map(const char *filename)
 {
-	t_map map;
-	int fd;
-	int y;
-	char *line;
+	t_map	map;
+	int		fd;
+	int		y;
+	char	*line;
 
 	ft_memset(&map, 0, sizeof(t_map));
 	map.height = count_height(filename);

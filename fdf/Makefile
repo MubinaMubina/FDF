@@ -6,13 +6,13 @@
 #    By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 07:39:24 by mmubina           #+#    #+#              #
-#    Updated: 2026/01/04 16:06:43 by mmubina          ###   ########.fr        #
+#    Updated: 2026/01/06 16:17:46 by mmubina          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME        = fdf
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -g
+CFLAGS      = -Wall -Wextra -Werror
 LIB_DIR     = lib
 MLX42_DIR   = $(LIB_DIR)/MLX42
 MLX42_LIB   = $(MLX42_DIR)/build/libmlx42.a

@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:44:20 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 14:34:01 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/06 16:06:40 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	free_split_safe(char **split)
 
 void	init_z_minmax(t_map *map)
 {
-	int		y;
-	int		x;
+	int	y;
+	int	x;
 
 	map->z_max = map->points[0][0].z;
 	map->z_min = map->points[0][0].z;

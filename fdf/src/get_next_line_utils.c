@@ -6,11 +6,9 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 10:32:01 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 14:33:43 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/06 16:06:50 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../include/fdf.h"
 
@@ -66,9 +64,9 @@ ssize_t	ft_strlen(const char *s)
 
 char	*ft_strjoin(char *s1, char const *s2)
 {
-	char	*str;
-	int		i;
-	int		j;
+	char *str;
+	int i;
+	int j;
 
 	if (!s1)
 		return (ft_strdup(s2));
