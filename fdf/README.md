@@ -438,7 +438,8 @@ make re
 ### References
 
 - [MLX42 Documentation](https://github.com/codam-coding-college/MLX42) - Graphics library used for window management and rendering
-- [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm)[YouTube Video for Bresenham's Line Algo](https://www.youtube.com/watch?v=RGB-wlatStc-)  Efficient line rasterization algorithm
+- [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm)
+ [YouTube Video for Bresenham's Line Algo](https://www.youtube.com/watch?v=RGB-wlatStc-)  Efficient line rasterization algorithm
 - [Isometric Projection](https://en.wikipedia.org/wiki/Isometric_projection) - 3D to 2D projection technique
 - [3D Rotation Matrices](https://en.wikipedia.org/wiki/Rotation_matrix) - Mathematical foundation for 3D rotations
 - [42 Docs - MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) - Community documentation for MiniLibX
