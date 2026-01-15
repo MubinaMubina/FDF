@@ -430,3 +430,24 @@ make re
 | Key 3 | Side view |
 | Key I | Isometric view |
 | ESC | Exit |
+
+---
+
+## Resources
+
+### References
+
+- [MLX42 Documentation](https://github.com/codam-coding-college/MLX42) - Graphics library used for window management and rendering
+- [Bresenham's Line Algorithm](https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm) - Efficient line rasterization algorithm
+- [Isometric Projection](https://en.wikipedia.org/wiki/Isometric_projection) - 3D to 2D projection technique
+- [3D Rotation Matrices](https://en.wikipedia.org/wiki/Rotation_matrix) - Mathematical foundation for 3D rotations
+- [42 Docs - MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) - Community documentation for MiniLibX
+
+### AI Usage
+
+AI (Claude) was used as a learning and debugging assistant for this project:
+- **Code explanation**: Understanding how rotation matrices and isometric projection work mathematically
+- **Debugging**: Identifying why parallel view switching (keys 2, 3) wasn't working - the `project_point()` function was missing rotation logic for `PARALLEL` mode.
+- **Code comments**: Adding explanatory comments to the rotation functions in `transform.c`
+
+All AI-generated code was reviewed, understood, and adapted to fit the project requirements before integration.
