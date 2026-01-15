@@ -66,16 +66,6 @@ void	free_map(t_map *map)
 	ft_memset(map, 0, sizeof(t_map));
 }
 
-void	validate_and_setup(t_map *map)
-{
-	if (!map || !map->points || map->height <= 0 || map->width <= 0)
-	{
-		ft_putendl_fd("Error: Invalid map", 2);
-		return ;
-	}
-	init_z_minmax(map);
-}
-
 int	count_width(char *line)
 {
 	int		count;

@@ -1,29 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   resize.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/04 10:32:37 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/04 10:45:48 by mmubina          ###   ########.fr       */
+/*   Created: 2026/01/15 10:00:00 by mmubina           #+#    #+#             */
+/*   Updated: 2026/01/15 10:00:00 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../include/fdf.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
+void	resize_hook(int32_t width, int32_t height, void *param)
+{
+	t_fdf	*f;
 
-# include <stdlib.h>
-# include <unistd.h>
-
-ssize_t	ft_strlen(const char *s);
-char	*ft_strjoin(char *s1, char const *s2);
-char	*ft_strdup(const char *src);
-char	*get_next_line(int fd);
-char	*ft_strchr(const char *s, int c);
-
-#endif
+	f = (t_fdf *)param;
+	if (width <= 0 || height <= 0)
+		return ;
+	mlx_delete_image(f->mlx, f->img);
+	f->img = mlx_new_image(f->mlx, width, height);
+	if (!f->img)
+		return ;
+	mlx_image_to_window(f->mlx, f->img, 0, 0);
+	f->cam.offset_x = width / 2;
+	f->cam.offset_y = height / 2;
+	draw_map(f);
+}

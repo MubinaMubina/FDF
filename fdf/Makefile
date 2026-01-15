@@ -19,10 +19,10 @@ MLX42_LIB   = $(MLX42_DIR)/build/libmlx42.a
 
 # List of source files based on your directory structure
 SRCS        = src/main.c src/parser.c src/parser_utils.c src/draw.c \
-              src/draw_utils.c src/transform.c src/events.c \
+              src/draw_utils.c src/transform.c src/events.c src/resize.c \
               src/get_next_line.c src/get_next_line_utils.c \
               src/mini_libft/ft_split.c src/mini_libft/functions.c \
-			  src/bresenham.c
+              src/bresenham.c
 
 OBJS        = $(SRCS:.c=.o)
 
