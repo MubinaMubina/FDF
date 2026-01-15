@@ -1,6 +1,8 @@
-# FDF (Fil de Fer / Wireframe) Project - Complete Documentation
+*This project has been created as part of the 42 curriculum by mmubina.*
 
-## Overview
+# FDF (Fil de Fer / Wireframe)
+
+## Description
 
 FDF is a 42 School project that renders 3D wireframe models from height map files. The name "Fil de Fer" is French for "wireframe." The program reads a map file containing elevation data and displays it as an interactive 3D wireframe visualization using the MLX42 graphics library.
 
@@ -388,20 +390,31 @@ Maps elevation to color for visual depth perception:
 
 ---
 
-## Build & Run
+## Instructions
+
+### Compilation
 
 ```bash
-# Build
+# Build the project
 make
 
+# Clean object files
+make clean
+
+# Clean object files and executable
+make fclean
+
+# Full rebuild
+make re
+```
+
+### Execution
+
+```bash
 # Run with a map file
 ./fdf maps/42.fdf
 ./fdf maps/mars.fdf
-
-# Clean
-make clean    # Remove .o files
-make fclean   # Remove .o files and executable
-make re       # Full rebuild
+./fdf maps/pylone.fdf
 ```
 
 ---
