@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:47:17 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/07 21:49:54 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/14 21:00:03 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,42 @@ void	isometric(float *x, float *y, float z)
 	*y = (tmp + *y) * sin(0.523599) - z;
 }
 
+// t_point	project_point(t_point p, t_fdf *fdf)
+// {
+// 	t_point	res;
+
+// 	res.x = p.x;
+// 	res.y = p.y;
+// 	res.z = p.z;
+// 	if (fdf->cam.type == ISOMETRIC)
+// 	{
+// 		isometric(&res.x, &res.y, res.z);
+// 	}
+// 	return (res);
+// }
+
+// #include "../include/fdf.h"
+// #include <math.h>
+
+// void	isometric(float *x, float *y, float z)
+// {
+// 	float	prev_x;
+// 	float	prev_y;
+
+// 	prev_x = *x;
+// 	prev_y = *y;
+// 	// 0.523599 radians = 30 degrees
+// 	*x = (prev_x - prev_y) * cos(0.523599);
+// 	*y = (prev_x + prev_y) * sin(0.523599) - z;
+// }
+
 t_point	project_point(t_point p, t_fdf *fdf)
 {
 	t_point	res;
 
-	res.x = p.x;
-	res.y = p.y;
-	res.z = p.z;
+	res = p;
 	if (fdf->cam.type == ISOMETRIC)
-	{
 		isometric(&res.x, &res.y, res.z);
-	}
+	// Note: If you have rotation functions, apply them before isometric()
 	return (res);
 }

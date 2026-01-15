@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:47:20 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/07 21:54:12 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/14 18:47:06 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	key_hook(mlx_key_data_t keydata, void *param)
 		if (keydata.key == MLX_KEY_1)
 			set_view(f, 0, 0, 0, PARALLEL);
 		if (keydata.key == MLX_KEY_2)
-			set_view(f, -1.5708, 0, 0, PARALLEL);
+			set_view(f, 1.5708, 0, 0, PARALLEL);
 		if (keydata.key == MLX_KEY_3)
 			set_view(f, 0, 1.5708, -1.5708, PARALLEL);
 		if (keydata.key == MLX_KEY_I)
@@ -66,7 +66,7 @@ void	scroll_hook(double xdelta, double ydelta, void *param)
 
 void	resize_hook(int32_t width, int32_t height, void *param)
 {
-	t_fdf *f;
+	t_fdf	*f;
 
 	f = (t_fdf *)param;
 	if (width <= 0 || height <= 0)

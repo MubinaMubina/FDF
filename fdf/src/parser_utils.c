@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:44:20 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/06 16:06:40 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/14 18:46:39 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,21 @@ void	validate_and_setup(t_map *map)
 		return ;
 	}
 	init_z_minmax(map);
+}
+
+int	count_width(char *line)
+{
+	int		count;
+	char	**split;
+
+	if (!line)
+		return (0);
+	split = ft_split(line, ' ');
+	if (!split)
+		return (0);
+	count = 0;
+	while (split[count])
+		count++;
+	free_split_safe(split);
+	return (count);
 }

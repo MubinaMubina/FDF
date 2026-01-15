@@ -6,28 +6,11 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:45:05 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/06 16:06:36 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/14 16:49:07 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/fdf.h"
-
-int	count_width(char *line)
-{
-	int		count;
-	char	**split;
-
-	if (!line)
-		return (0);
-	split = ft_split(line, ' ');
-	if (!split)
-		return (0);
-	count = 0;
-	while (split[count])
-		count++;
-	free_split_safe(split);
-	return (count);
-}
 
 int	count_height(const char *filename)
 {
@@ -74,34 +57,50 @@ t_point	*parse_line(char *line, int y, int width)
 	return (points);
 }
 
-t_map	parse_map(const char *filename)
+int	open_and_allocate(const char *filename, t_map *map)
 {
-	t_map	map;
-	int		fd;
+	int	fd;
+
+	map->height = count_height(filename);
+	if (map->height <= 0)
+		return (-1);
+	map->points = malloc(sizeof(t_point *) * map->height);
+	if (!map->points)
+		return (-1);
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (free(map->points), -1);
+	return (fd);
+}
+
+void	read_map_lines(int fd, t_map *map)
+{
 	int		y;
 	char	*line;
 
-	ft_memset(&map, 0, sizeof(t_map));
-	map.height = count_height(filename);
-	if (map.height <= 0)
-		return (map);
-	map.points = malloc(sizeof(t_point *) * map.height);
-	if (!map.points)
-		return (map);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (free(map.points), map);
 	y = 0;
 	line = get_next_line(fd);
-	while (line && y < map.height)
+	while (line && y < map->height)
 	{
 		if (y == 0)
-			map.width = count_width(line);
-		map.points[y] = parse_line(line, y, map.width);
+			map->width = count_width(line);
+		map->points[y] = parse_line(line, y, map->width);
 		free(line);
 		line = get_next_line(fd);
 		y++;
 	}
+}
+
+t_map	parse_map(const char *filename)
+{
+	t_map	map;
+	int		fd;
+
+	ft_memset(&map, 0, sizeof(t_map));
+	fd = open_and_allocate(filename, &map);
+	if (fd < 0)
+		return (map);
+	read_map_lines(fd, &map);
 	close(fd);
 	return (map);
 }

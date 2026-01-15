@@ -6,7 +6,7 @@
 #    By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/01/04 07:39:24 by mmubina           #+#    #+#              #
-#    Updated: 2026/01/06 16:17:46 by mmubina          ###   ########.fr        #
+#    Updated: 2026/01/14 15:54:02 by mmubina          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ MLX42_LIB   = $(MLX42_DIR)/build/libmlx42.a
 SRCS        = src/main.c src/parser.c src/parser_utils.c src/draw.c \
               src/draw_utils.c src/transform.c src/events.c \
               src/get_next_line.c src/get_next_line_utils.c \
-              src/mini_libft/ft_split.c src/mini_libft/functions.c
+              src/mini_libft/ft_split.c src/mini_libft/functions.c \
+			  src/bresenham.c
 
 OBJS        = $(SRCS:.c=.o)
 
