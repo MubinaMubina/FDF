@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:44:20 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/14 18:46:39 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/18 23:59:43 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,24 @@ int	count_width(char *line)
 		count++;
 	free_split_safe(split);
 	return (count);
+}
+
+int	is_valid_number(const char *str)
+{
+	int	i;
+
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i] || !(str[i] >= '0' && str[i] <= '9'))
+		return (0);
+	while (str[i] >= '0' && str[i] <= '9')
+		i++;
+	while (str[i] == ' ' || str[i] == '\t' || str[i] == '\n' || str[i] == '\r')
+		i++;
+	return (str[i] == '\0');
 }

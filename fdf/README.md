@@ -444,7 +444,7 @@ make re
 - [3D Rotation Matrices](https://en.wikipedia.org/wiki/Rotation_matrix) - Mathematical foundation for 3D rotations
 - [42 Docs - MiniLibX](https://harm-smits.github.io/42docs/libs/minilibx) - Community documentation for MiniLibX
 
-### AI Usage
+### AI Usage 
 
 AI (Claude) was used as a learning and debugging assistant for this project:
 - **Code explanation**: Understanding how rotation matrices and isometric projection work mathematically

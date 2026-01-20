@@ -86,12 +86,13 @@ void			ft_putendl_fd(char *s, int fd);
 /* parser functions */
 int				count_width(char *line);
 int				count_height(const char *filename);
+int				is_valid_number(const char *str);
 t_point			*parse_line(char *line, int y, int width);
 void			free_map(t_map *map);
 void			init_z_minmax(t_map *map);
 void			free_split_safe(char **split);
 int				open_and_allocate(const char *filename, t_map *map);
-void			read_map_lines(int fd, t_map *map);
+int				read_map_lines(int fd, t_map *map);
 t_map			parse_map(const char *filename);
 
 /* draw functions */

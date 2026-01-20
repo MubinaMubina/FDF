@@ -6,7 +6,7 @@
 /*   By: mmubina <mmubina@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/04 07:45:05 by mmubina           #+#    #+#             */
-/*   Updated: 2026/01/14 16:49:07 by mmubina          ###   ########.fr       */
+/*   Updated: 2026/01/19 23:51:57 by mmubina          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,11 @@ t_point	*parse_line(char *line, int y, int width)
 	x = 0;
 	while (split[x] && x < width)
 	{
+		if (!is_valid_number(split[x]))
+		{
+			free_split_safe(split);
+			return (free(points), NULL);
+		}
 		points[x].x = (float)x;
 		points[x].y = (float)y;
 		points[x].z = (float)ft_atoi(split[x]);
@@ -73,7 +78,16 @@ int	open_and_allocate(const char *filename, t_map *map)
 	return (fd);
 }
 
-void	read_map_lines(int fd, t_map *map)
+static void	cleanup_on_error(t_map *map, int y, char *line)
+{
+	while (--y >= 0)
+		free(map->points[y]);
+	free(map->points);
+	map->points = NULL;
+	free(line);
+}
+
+int	read_map_lines(int fd, t_map *map)
 {
 	int		y;
 	char	*line;
@@ -85,22 +99,14 @@ void	read_map_lines(int fd, t_map *map)
 		if (y == 0)
 			map->width = count_width(line);
 		map->points[y] = parse_line(line, y, map->width);
+		if (!map->points[y])
+		{
+			cleanup_on_error(map, y, line);
+			return (0);
+		}
 		free(line);
 		line = get_next_line(fd);
 		y++;
 	}
-}
-
-t_map	parse_map(const char *filename)
-{
-	t_map	map;
-	int		fd;
-
-	ft_memset(&map, 0, sizeof(t_map));
-	fd = open_and_allocate(filename, &map);
-	if (fd < 0)
-		return (map);
-	read_map_lines(fd, &map);
-	close(fd);
-	return (map);
+	return (1);
 }
