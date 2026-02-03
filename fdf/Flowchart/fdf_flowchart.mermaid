@@ -1,0 +1,105 @@
+graph TD
+    A["🚀 Start: ./fdf map.fdf"] --> B["Parse Arguments<br/>argc == 2?"]
+    B -->|No| B1["❌ Error: Invalid arguments"]
+    B -->|Yes| C["📂 Parse Map File"]
+    
+    C --> C1["open_and_allocate<br/>- Count height lines<br/>- Allocate 2D array"]
+    C1 --> C2["read_map_lines<br/>Loop through file"]
+    C2 --> C3["get_next_line<br/>Read one line"]
+    C3 --> C4["parse_line<br/>Split line into numbers"]
+    C4 --> C5["Create t_point array<br/>Set x, y, z values"]
+    C5 --> C6["Store in map.points[y]"]
+    C6 -->|More lines?| C2
+    C6 -->|All lines read| C7["init_z_minmax<br/>Find z_max & z_min"]
+    
+    C7 --> D["🎮 Setup Graphics<br/>MLX Initialize"]
+    D --> D1["mlx_init<br/>Create window"]
+    D1 --> D2["mlx_new_image<br/>Create frame buffer"]
+    D2 --> D3["✅ Graphics Ready"]
+    
+    D3 --> E["📐 Initialize Camera"]
+    E --> E1["calc_camera_zoom<br/>- Calculate required zoom<br/>- Prevent Z overflow<br/>- Auto-scale elevation"]
+    E1 --> E2["init_camera<br/>- Set default isometric view<br/>- Center offsets<br/>- Set rotation angles to 0"]
+    E2 --> E3["set_view<br/>Apply view parameters"]
+    
+    E3 --> F["🎬 First Render:<br/>draw_map"]
+    F --> F1["clear_image<br/>Fill screen black"]
+    F1 --> F2["Loop y=0 to height-1"]
+    F2 --> F3["Loop x=0 to width-1"]
+    F3 --> F4["apply_transforms<br/>Current point"]
+    
+    F4 --> F4A["Center point<br/>subtract map center"]
+    F4A --> F4B["Scale by zoom & z_scale"]
+    F4B --> F4C["project_point<br/>3D → 2D conversion"]
+    
+    F4C --> F4C1{Camera Type?}
+    F4C1 -->|ISOMETRIC| F4C1A["isometric<br/>x' = x-y * cos30°<br/>y' = x+y * sin30° - z"]
+    F4C1 -->|PARALLEL| F4C1B["Apply rotations:<br/>rotate_x, rotate_y,<br/>rotate_z"]
+    F4C1A --> F4D["Add offsets<br/>screen_x = proj_x + offset_x<br/>screen_y = proj_y + offset_y"]
+    F4C1B --> F4D
+    
+    F4D --> F5["Draw line right<br/>if x < width-1"]
+    F5 --> F5A["draw_line<br/>get colors by height"]
+    F5A --> F5B["draw_bresenham<br/>Rasterize line"]
+    
+    F5B --> F5B1["init_bresenham<br/>Setup Δx, Δy, direction"]
+    F5B1 --> F5B2["Loop: step_bresenham"]
+    F5B2 --> F5B3["Calculate interpolation<br/>fraction along line"]
+    F5B3 --> F5B4["get_fraction<br/>Calculate 0.0-1.0 weight"]
+    F5B4 --> F5B5["interpolate_color<br/>Blend endpoint colors"]
+    F5B5 --> F5B6["put_pixel<br/>Write RGBA to buffer"]
+    F5B6 -->|At end?| F5B7["Done with line"]
+    F5B6 -->|Continue| F5B2
+    
+    F5B7 --> F6["Draw line down<br/>if y < height-1"]
+    F6 --> F5A
+    
+    F6 --> F7{More<br/>points?}
+    F7 -->|Yes| F3
+    F7 -->|No| F8["✅ Frame rendered"]
+    
+    F8 --> G["🔄 Register Event Hooks"]
+    G --> G1["mlx_key_hook → key_hook"]
+    G1 --> G2["mlx_scroll_hook → scroll_hook"]
+    G2 --> G3["mlx_resize_hook → resize_hook"]
+    G3 --> G4["mlx_loop<br/>Enter main event loop"]
+    
+    G4 --> H{User Input?}
+    H -->|Key Press| H1["key_hook"]
+    H1 --> H1A{Which Key?}
+    H1A -->|Arrow Keys| H1A1["Adjust offset_x/y<br/>Pan camera"]
+    H1A -->|1,2,3,I| H1A2["set_view<br/>Change projection"]
+    H1A -->|ESC| H1A3["mlx_close_window<br/>Exit"]
+    
+    H -->|Mouse Wheel| H2["scroll_hook"]
+    H2 --> H2A{Direction?}
+    H2A -->|Up| H2A1["zoom *= 1.1<br/>Zoom in"]
+    H2A -->|Down| H2A2["zoom /= 1.1<br/>Zoom out"]
+    H2A2 --> H2A3["Enforce min zoom"]
+    
+    H -->|Window Resize| H3["resize_hook"]
+    H3 --> H3A["Delete old image"]
+    H3A --> H3B["Create new image<br/>at new size"]
+    H3B --> H3C["Update offsets<br/>to new center"]
+    
+    H1A1 --> H4["draw_map<br/>Re-render scene"]
+    H1A2 --> H4
+    H2A1 --> H4
+    H2A2 --> H4
+    H3C --> H4
+    
+    H4 --> H5["Clear & redraw<br/>all lines"]
+    H5 --> H6["Update display"]
+    H6 --> G4
+    
+    H1A3 --> I["🛑 Cleanup"]
+    I --> I1["free_map<br/>Deallocate points"]
+    I1 --> I2["mlx_terminate<br/>Close graphics"]
+    I2 --> I3["Exit program"]
+    
+    style A fill:#90EE90
+    style B1 fill:#FFB6C6
+    style F fill:#87CEEB
+    style F5B fill:#FFD700
+    style G4 fill:#87CEEB
+    style I3 fill:#FFB6C6
