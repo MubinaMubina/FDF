@@ -1,0 +1,116 @@
+graph TB
+    subgraph INPUT["📥 INPUT LAYER"]
+        A["map.fdf<br/>(Height Map File)"]
+    end
+    
+    subgraph PARSE["📂 PARSING LAYER"]
+        B["parse_map<br/>Main coordinator"]
+        B1["count_height<br/>Count rows"]
+        B2["count_width<br/>Count columns"]
+        B3["get_next_line<br/>Read line by line<br/>with static buffer"]
+        B4["parse_line<br/>String → Points"]
+        B5["is_valid_number<br/>Input validation"]
+    end
+    
+    subgraph DATA["💾 DATA STRUCTURES"]
+        D1["t_point<br/>x, y, z, color"]
+        D2["t_map<br/>points, width,<br/>height, z_min,<br/>z_max"]
+        D3["t_camera<br/>angles, zoom,<br/>offsets, type"]
+    end
+    
+    subgraph TRANSFORM["🔄 TRANSFORM LAYER<br/>3D → 2D Conversion"]
+        T1["apply_transforms<br/>Center, scale,<br/>project, offset"]
+        T2["project_point<br/>3D projection<br/>dispatcher"]
+        T2A["isometric<br/>30° projection"]
+        T2B["rotate_x/y/z<br/>Rotation matrices"]
+    end
+    
+    subgraph RENDER["🎨 RENDER LAYER"]
+        R1["draw_map<br/>Main render loop<br/>Clear + draw all lines"]
+        R2["draw_line<br/>Get height colors"]
+        R3["draw_bresenham<br/>Line rasterization"]
+        R3A["init_bresenham<br/>Setup variables"]
+        R3B["step_bresenham<br/>Step along line"]
+        R4["Color Functions"]
+        R4A["get_height_color<br/>Z → Color"]
+        R4B["interpolate_color<br/>Blend colors"]
+        R4C["get_fraction<br/>Calc blend weight"]
+        R5["put_pixel<br/>Write to buffer"]
+    end
+    
+    subgraph DISPLAY["🖼️ DISPLAY LAYER"]
+        DIS["MLX42 Graphics Library"]
+        IMG["Frame Buffer<br/>mlx_image_t"]
+    end
+    
+    subgraph EVENT["⌨️ EVENT LAYER"]
+        EV1["key_hook<br/>Arrow keys, 1-3, I, ESC"]
+        EV2["scroll_hook<br/>Mouse wheel zoom"]
+        EV3["resize_hook<br/>Window resize"]
+    end
+    
+    subgraph MAIN["🎬 MAIN LOOP"]
+        M["mlx_loop<br/>Wait for events"]
+    end
+    
+    subgraph CLEANUP["🛑 CLEANUP"]
+        C1["free_map<br/>Deallocate points"]
+        C2["mlx_terminate<br/>Close graphics"]
+    end
+    
+    %% Connections
+    A --> PARSE
+    PARSE --> B
+    B --> B1
+    B --> B2
+    B --> B3
+    B --> B4
+    B --> B5
+    B3 --> B4
+    PARSE --> DATA
+    B --> D2
+    
+    DATA --> TRANSFORM
+    D2 --> T1
+    D3 --> T2
+    T2 --> T2A
+    T2 --> T2B
+    
+    TRANSFORM --> RENDER
+    T1 --> R1
+    R1 --> R2
+    R2 --> R3
+    R3 --> R3A
+    R3A --> R3B
+    R3B --> R4
+    R4 --> R4A
+    R4 --> R4B
+    R4 --> R4C
+    R3B --> R5
+    
+    RENDER --> DISPLAY
+    R5 --> IMG
+    IMG --> DIS
+    
+    DIS --> M
+    M --> EVENT
+    
+    EV1 --> M
+    EV2 --> M
+    EV3 --> M
+    
+    EVENT --> R1
+    
+    M -->|ESC| CLEANUP
+    CLEANUP --> C1
+    C1 --> C2
+    
+    style INPUT fill:#B0E0E6
+    style PARSE fill:#FFE4B5
+    style DATA fill:#E6E6FA
+    style TRANSFORM fill:#FFB6C1
+    style RENDER fill:#FFD700
+    style DISPLAY fill:#90EE90
+    style EVENT fill:#DDA0DD
+    style MAIN fill:#87CEEB
+    style CLEANUP fill:#F08080
